@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Age Calculator</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2>Age Calculator</h2>
+      <input type="date" id="dob" />
+      <button onclick="calculateAge()">Calculate Age</button>
+      <div id="result"></div>
+    </div>
+
+    <script>
+      function calculateAge() {
+        const dobInput = document.getElementById("dob").value;
+        const result = document.getElementById("result");
+
+        if (!dobInput) {
+          result.innerHTML =
+            " <div style='color:red; font-weight:bold;'> Please select your date of birth!";
+          return;
+        }
+
+        const birthDate = new Date(dobInput);
+        const today = new Date();
+
+        if (birthDate > today) {
+          result.innerHTML =
+            "<div style='color:red; font-weight:bold;'> Invalid Date! Future DOB not allowed.";
+          return;
+        }
+
+        let ageYears = today.getFullYear() - birthDate.getFullYear();
+        let ageMonths = today.getMonth() - birthDate.getMonth();
+        let ageDays = today.getDate() - birthDate.getDate();
+
+        if (ageDays < 0) {
+          ageMonths--;
+          const prevMonthDays = new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            0
+          ).getDate();
+          ageDays += prevMonthDays;
+        }
+
+        if (ageMonths < 0) {
+          ageYears--;
+          ageMonths += 12;
+        }
+
+        result.innerHTML = `
+        
+        Your Age is <br>
+        <b>${ageYears}</b> Years, 
+        <b>${ageMonths}</b> Months, 
+        and <b>${ageDays}</b> Days.
+      `;
+      }
+    </script>
+  </body>
+</html>
